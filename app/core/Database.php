@@ -11,7 +11,7 @@ class Database {
 
     public function __construct(){
         //data source name
-        $dsn = 'mysql:host= '. $this->host .';dbname='. $this->db_name;
+        // $dsn = 'mysql:host= '. $this->host .';dbname='. $this->db_name;
 
         $option = [
             PDO::ATTR_PERSISTENT => true,
@@ -20,9 +20,7 @@ class Database {
         
         try {
             $this->dbh = new PDO("mysql:host=$this->host;dbname=" . $this->db_name, $this->user, $this->pass, $option);
-            // set the PDO error mode to exception
-            $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "Connected successfully";
+            // echo "Connected successfully";
         } catch(PDOException $e) {
             die($e->getMessage());
         }
@@ -53,14 +51,16 @@ class Database {
     }
     
     public function execute(){
-        $this->stmt->execute();
+        $this->stmt->execute();  
     }
 
+    // Jika ingin mengambil banyak data
     public function resultSet(){
         $this->execute();
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Jika ingin mengambil satu data
     public function single(){
         $this->execute();
         return $this->stmt->fetch(PDO::FETCH_ASSOC);
