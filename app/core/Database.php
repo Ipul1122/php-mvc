@@ -1,6 +1,6 @@
 <?php
 
-class Database  {
+class Database {
     private $host = DB_HOST; //localhost
     private $user = DB_USER; //root
     private $pass = DB_PASS; //'' (empty)
@@ -17,12 +17,16 @@ class Database  {
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ];
-
+        
         try {
-            $this->dbh = new PDO($dsn, $this->user, $this->pass, $option);
-        } catch(PDOException $e){
+            $this->dbh = new PDO("mysql:host=$this->host;dbname=" . $this->db_name, $this->user, $this->pass, $option);
+            // set the PDO error mode to exception
+            $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            echo "Connected successfully";
+        } catch(PDOException $e) {
             die($e->getMessage());
         }
+
     }
 
     public function query($query){
